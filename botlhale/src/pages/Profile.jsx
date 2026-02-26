@@ -7,7 +7,7 @@ const Profile = () => {
 
   if (loading) return <h3>Loading...</h3>;
 
-  if (!user) return <Navigate to="/login" />;
+  if (!user) return <Navigate to="/" />;
 
   return (
     <div>

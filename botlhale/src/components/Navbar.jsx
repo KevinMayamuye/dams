@@ -1,14 +1,15 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const { user, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
-    window.location.href = "/login";
+    navigate("/");
   };
 
   return (
@@ -23,7 +24,7 @@ const Navbar = () => {
         </>
       ) : (
         <>
-          <Link to="/login">Login</Link>
+          <Link to="/">Login</Link>
           <Link to="/register">Register</Link>
         </>
       )}

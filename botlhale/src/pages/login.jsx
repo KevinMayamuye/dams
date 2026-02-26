@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { loginUser } from "../services/authService";
+import { useState, useContext } from "react";
+import { loginUser, getProfile } from "../services/authService";
+import { AuthContext } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext);
 
   const [form, setForm] = useState({
     email: "",
@@ -26,8 +28,11 @@ function Login() {
       // store token
       localStorage.setItem("token", res.data.token);
 
-      // Go to profile
-      navigate("/profile");
+      // load profile and update auth context so app sees logged-in user
+      const profileRes = await getProfile(res.data.token);
+      setUser(profileRes.data);
+
+      navigate("/dashboard");
     } catch (err) {
       alert("Login failed");
     }
