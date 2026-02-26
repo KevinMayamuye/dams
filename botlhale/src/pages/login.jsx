@@ -21,16 +21,13 @@ function Login() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
+      const res = await loginUser(form);
 
       // store token
       localStorage.setItem("token", res.data.token);
 
       // Go to profile
-      window.location.href = "/profile";
+      navigate("/profile");
     } catch (err) {
       alert("Login failed");
     }
