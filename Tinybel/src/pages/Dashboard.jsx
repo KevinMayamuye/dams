@@ -32,6 +32,7 @@ export default function Dashboard() {
   const [availableSlots, setAvailableSlots] = useState([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [message, setMessage] = useState("");
+  const [showDoctorsList, setShowDoctorsList] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) navigate("/");
@@ -130,7 +131,12 @@ export default function Dashboard() {
       <section style={{ marginBottom: 32 }}>
         <h3>Register doctor</h3>
         {!showDoctorForm ? (
-          <button type="button" onClick={() => setShowDoctorForm(true)}>Add doctor</button>
+          <>
+            <button type="button" onClick={() => setShowDoctorForm(true)}>Add doctor</button>
+            <button type="button" onClick={() => { setShowDoctorsList((v) => !v); if (!showDoctorsList) loadDoctors(); }} style={{ marginLeft: 8 }}>
+              {showDoctorsList ? "Hide list" : "View doctors"}
+            </button>
+          </>
         ) : (
           <form onSubmit={handleDoctorSubmit} style={{ maxWidth: 300 }}>
             <div style={{ marginBottom: 8 }}>
@@ -160,6 +166,33 @@ export default function Dashboard() {
             <button type="submit">Register</button>
             <button type="button" onClick={() => setShowDoctorForm(false)}>Cancel</button>
           </form>
+        )}
+        {showDoctorsList && (
+          <div style={{ marginTop: 16 }}>
+            <h4>Doctors</h4>
+            {doctors.length === 0 ? (
+              <p>No doctors registered.</p>
+            ) : (
+              <table style={{ borderCollapse: "collapse", width: "100%", maxWidth: 500 }}>
+                <thead>
+                  <tr>
+                    <th style={{ border: "1px solid #ccc", padding: 8, textAlign: "left" }}>Name</th>
+                    <th style={{ border: "1px solid #ccc", padding: 8, textAlign: "left" }}>Surname</th>
+                    <th style={{ border: "1px solid #ccc", padding: 8, textAlign: "left" }}>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {doctors.map((d) => (
+                    <tr key={d._id}>
+                      <td style={{ border: "1px solid #ccc", padding: 8 }}>{d.name}</td>
+                      <td style={{ border: "1px solid #ccc", padding: 8 }}>{d.surname}</td>
+                      <td style={{ border: "1px solid #ccc", padding: 8 }}>{d.email || "—"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
         )}
       </section>
 
