@@ -5,6 +5,8 @@ import cors from 'cors';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from "./routes/userRoutes.js";
+import doctorRoutes from "./routes/doctorRoutes.js";
+import bookingRoutes from "./routes/bookingRoutes.js";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -24,6 +26,8 @@ app.use(cors({
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/doctors", doctorRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 const PORT = process.env.PORT; // connection to port 5000
 
